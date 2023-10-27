@@ -1,5 +1,4 @@
-const APP_ID = '1aadd2e3';
-const APP_KEY = "e72a5a48473fb2f9f702b505a82519de";
+import 'api_key.dart';
 
 class Constants {
   static String GET_RANDOM_RECIPE =
