@@ -21,6 +21,21 @@ class _MyHomePageState extends State<MyHomePage> {
   RecipeListViewModel _recipeListViewBuilder = RecipeListViewModel();
   TextEditingController _keywordController = TextEditingController();
 
+  Widget _buildList(RecipeListViewModel vm) {
+    switch (vm.loadingStatus) {
+      case Loadingstatus.searching:
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      case Loadingstatus.empty:
+        return Center(
+          child: Text('List is empty'),
+        );
+      case Loadingstatus.completed:
+        return recipeList(vm: vm);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<RecipeListViewModel>(context);
@@ -50,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     icon: Icon(Icons.cancel))),
           ),
-          Expanded(child: recipeList(vm: vm)),
+          Expanded(child: _buildList(vm)),
         ],
       ),
     );
