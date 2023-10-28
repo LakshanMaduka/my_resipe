@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../viewModels/recipeListViewModel.dart';
+import '../viewModels/recipeViewModel.dart';
+import '../views/detailsPage.dart';
 import 'recipeCard.dart';
 
 class recipeList extends StatelessWidget {
-  const recipeList({
-    super.key,
-    required this.vm,
-  });
+  final Function(RecipeViewModel recipe)? onTap;
+  recipeList({super.key, required this.vm, this.onTap});
 
   final RecipeListViewModel vm;
 
@@ -19,6 +19,9 @@ class recipeList extends StatelessWidget {
           return RecipeCard(
             title: vm.recipies[index].label,
             imgUrl: vm.recipies[index].image,
+            onTap: () {
+              onTap!(vm.recipies[index]);
+            },
           );
         });
   }

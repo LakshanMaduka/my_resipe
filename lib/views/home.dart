@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_resipe/services/recipe_service.dart';
 import 'package:my_resipe/viewModels/recipeListViewModel.dart';
+import 'package:my_resipe/views/detailsPage.dart';
 import 'package:my_resipe/widgets/recipeCard.dart';
 import 'package:my_resipe/widgets/recipeList.dart';
 import 'package:provider/provider.dart';
+
+import '../viewModels/recipeViewModel.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -21,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
   RecipeListViewModel _recipeListViewBuilder = RecipeListViewModel();
   TextEditingController _keywordController = TextEditingController();
 
-  Widget _buildList(RecipeListViewModel vm) {
+  Widget _buildList(BuildContext context, RecipeListViewModel vm) {
     switch (vm.loadingStatus) {
       case Loadingstatus.searching:
         return Center(
@@ -32,8 +35,23 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Text('List is empty'),
         );
       case Loadingstatus.completed:
-        return recipeList(vm: vm);
+        return recipeList(
+          vm: vm,
+          onTap: (recipe) {
+            _buildPage(context, recipe);
+          },
+        );
     }
+  }
+
+  void _buildPage(BuildContext context, RecipeViewModel recipe) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => DetailsPage(
+          recipe: recipe,
+        ),
+      ),
+    );
   }
 
   @override
@@ -65,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     icon: Icon(Icons.cancel))),
           ),
-          Expanded(child: _buildList(vm)),
+          Expanded(child: _buildList(context, vm)),
         ],
       ),
     );

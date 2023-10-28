@@ -14,6 +14,6 @@ class Recipe {
         image: json['image'],
         ingredients: json['ingredients'],
         label: json['label'],
-        url: 'url');
+        url: json['url']);
   }
 }
